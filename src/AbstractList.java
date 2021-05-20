@@ -8,10 +8,17 @@ public abstract class AbstractList<E> implements List<E> {
     public abstract E get(int index);
 
     public void add(int index, E element) throws UnsupportedOperationException{
+
     }
 
     public boolean add(E element){
-        add(size(),element);
+        try {
+            add(size(), element);
+        }catch (UnsupportedOperationException e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public boolean contains(Object ob){

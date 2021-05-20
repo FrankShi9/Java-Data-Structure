@@ -13,7 +13,7 @@
 package W7Tut;
 public class IntBST {
     IntBTNode root;
-	 
+
     /* Constructor */
     public IntBST()
     {
@@ -111,10 +111,11 @@ public class IntBST {
                 return node.right;
             } else if (node.right == null) {
                 return node.left;
-            }
+            }//!!Copy the child to the node and delete the child. In the parent node, we replace this node with its only child
+
 
             // node with two children: Get the inorder successor (smallest
-            // in the right subtree)
+            // left child in the right subtree)
             node.data = node.right.getLeftmostData();
 
             // Delete the inorder successor

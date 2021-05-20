@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class ArrayList<E> extends AbstractList<E> {
+public class ArrayList<E> extends AbstractList<E> implements List<E> {
 
     private E[] data;
     private int count = 0;
@@ -24,7 +24,7 @@ public class ArrayList<E> extends AbstractList<E> {
     public Iterator<E> iterator() {
         return new ArrayListIterator<E>(this);
     }
-
+    //inner class
     private class ArrayListIterator<E> implements Iterator<E>{
         private ArrayList <E> targetList; // reference to the list it is iterating down
         private int nextIndx = 0; // the index of the next value to return

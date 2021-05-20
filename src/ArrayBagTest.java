@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class ArrayBagTest {
     private static Scanner input = new Scanner(System.in);
     public static void main(String[] agrs){
-        /*
+
         final int word_per_bag = 4;
         ArrayBag<String> names = new ArrayBag<>(word_per_bag);
         ArrayBag<String> mood = new ArrayBag<>(word_per_bag);
@@ -27,12 +27,12 @@ public class ArrayBagTest {
         for(int line = 0; line < 3; line ++){
             System.out.println(names.grab() + " is " + activities.grab() + " and s/he feels " + mood.grab() + ".");
         }
-        */
-        ArrayBag<String> names = new ArrayBag<>();
-        names.addMany("a","b","c");
-        System.out.println(names.countOccurrences("a"));
-        names.remove("a");
-        System.out.println(names.countOccurrences("a"));
+
+//        ArrayBag<String> names = new ArrayBag<>();
+//        names.addMany("a","b","c");
+//        System.out.println(names.countOccurrences("a"));
+//        names.remove("a");
+//        System.out.println(names.countOccurrences("a"));
 
     }
 

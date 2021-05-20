@@ -35,6 +35,18 @@ public class Test<E> implements Comparable<E>{
 
         Test<Integer> test0 = new Test<>();
         System.out.println(test0.container.length);
+
+        System.out.println(test0.container.length);
+
+        int k = 1, index = 5;
+        while(++k<index){
+            System.out.println(k);
+        }
+        System.out.println();
+        k = 1;
+        while(k++<index){ //++ after < cmp
+            System.out.println(k);
+        }
     }
 
     public static void myMethod(Integer i){

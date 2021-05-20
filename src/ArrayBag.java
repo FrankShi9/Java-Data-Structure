@@ -176,7 +176,7 @@ public class ArrayBag<E> implements Cloneable //Comparable or not is specified i
         }
 
         i = (int) (Math.random()*manyItems); //random index
-        return (E) data[i];
+        return data[i];
 
     }
 

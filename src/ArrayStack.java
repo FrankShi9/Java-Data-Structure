@@ -3,7 +3,6 @@ import java.util.EmptyStackException;
 public class ArrayStack <E> implements Cloneable{
 
     private E [] data;
-
     private int manyItems;
 
     //constructor 1
@@ -63,21 +62,22 @@ public class ArrayStack <E> implements Cloneable{
 
     public E pop(){
 
-        E[] buf = (E []) new Object[this.manyItems];
-        E ele;
-        if(this.isEmpty()){
-            throw new EmptyStackException();
-        }else{
-            E [] answer = (E[]) new Object [this.data.length];
-            System.arraycopy(this.data,0,buf,0,this.manyItems);
-            ele = buf[manyItems-1];
-            System.arraycopy(this.data,0,answer,0,--manyItems); //change the manyItems attribute
-            this.data = answer; //handover the reference
-        }
-        //return ele;
+//        E[] buf = (E []) new Object[this.manyItems];
+//        E ele;
+//        if(this.isEmpty()){
+//            throw new EmptyStackException();
+//        }else{
+//            E [] answer = (E[]) new Object [this.data.length];
+//            System.arraycopy(this.data,0,buf,0,this.manyItems);
+//            ele = buf[manyItems-1];
+//            System.arraycopy(this.data,0,answer,0,--manyItems); //change the manyItems attribute
+//            this.data = answer; //handover the reference
+//        }
+//        //return ele;
 
-        if(manyItems == 0)
+        if(manyItems == 0) {
             throw new EmptyStackException();
+        }
 
         return data[--manyItems];
 
@@ -102,15 +102,20 @@ public class ArrayStack <E> implements Cloneable{
     }
 
     public static void main(String[] args){
+//        String a = "This is a test for arrayStack :)";
+//        for (String ele: a.split(" ")){
+//            System.out.println(ele);
+//        }
         ArrayStack<String> arrayStack1 = new ArrayStack<>();
-        for(String s: "This is a test for arrayStack:)".split(" "))
+        for(String s: "This is a test for arrayStack".split(" ")) {
             arrayStack1.push(s);
+        }
 
         try {
             while (!arrayStack1.isEmpty())
                 System.out.print(arrayStack1.pop() + " ");
         }catch(EmptyStackException e){
-            System.out.println("The program is done.");
+            System.out.println("Stack is empty");
         }
     }
 

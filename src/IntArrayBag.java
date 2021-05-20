@@ -33,11 +33,13 @@ public class IntArrayBag implements Cloneable
    **/
    public void add(int element){
       if (manyItems == data.length){  
-         ensureCapacity((manyItems + 1)*2); // Ensure twice as much space as we need.
+         ensureCapacity((manyItems + 1)*2); // Ensure twice as much space as we need. in case initialCapa
+                                                         // city = manyItems = 0
       }
 
       data[manyItems] = element;
       manyItems++;
+
    }
 
 
@@ -61,13 +63,13 @@ public class IntArrayBag implements Cloneable
    **/
    public void addAll(IntArrayBag addend){
       ensureCapacity(manyItems + addend.manyItems);         
-      System.arraycopy(addend.data, 0, data, manyItems, addend.manyItems);
+      System.arraycopy(addend.data, 0, data, manyItems, addend.manyItems); //correct solu
       manyItems += addend.manyItems;
-   }   
+   }
    
    public void addAll2(IntArrayBag addend){
 	   ensureCapacity(manyItems + addend.manyItems);
-	   for(int i = 0; i < addend.manyItems; i++){ //it will loop until death since addend.manyItems doubles every 7 steps
+	   for(int i = 0; i < addend.manyItems; i++){ //it will loop until death since every i++ comes with manyItems++
 		   add(addend.data[i]);
 	   }
 	   
@@ -96,14 +98,16 @@ public class IntArrayBag implements Cloneable
    * Accessor method to count the number of occurrences of a particular element
    * in this bag.
    **/
-   public int countOccurrences(int target){  //useful for union and intersection function
+   public int countOccurrences(int target){  //useful for intersection function
       int answer;
       int index;
       
       answer = 0;
-      for (index = 0; index < manyItems; index++)
-         if (target == data[index])
+      for (index = 0; index < manyItems; index++) {
+         if (target == data[index]) {
             answer++;
+         }
+      }
       return answer;
    }
 
@@ -117,7 +121,7 @@ public class IntArrayBag implements Cloneable
       if (data.length < minimumCapacity){
          biggerArray = new int[minimumCapacity];
          System.arraycopy(data, 0, biggerArray, 0, manyItems);
-         data = biggerArray;
+         data = biggerArray; //pass the reference
       }
    }
 
@@ -145,22 +149,22 @@ public class IntArrayBag implements Cloneable
          return false;
       else{  // The target was found at data[index].
          
-    	  // So reduce manyItems by 1 and copy the last element onto data[index].
+    	  // So reduce manyItems by 1 and copy the last element onto  data[index].
          data[index] = data[--manyItems];
          return true;
       }
    }
-   
+
+   //could add a removeAll(intArrayBag input);
    /**
    * TODO: Remove many targets and return the total number of elements removed. 
    * Please use enhanced for loop.
    **/
-   public int removeMany(int...targets){
+   public int removeMany(int...targets){//can take many ints or one int array
 
 	   int count = 0;
-	   int index = 0;
 
-	   for(int ele: targets){
+	   for(int ele: targets){ //enhanced for loop
 
           if(remove(ele)){
              count++;
@@ -189,18 +193,20 @@ public class IntArrayBag implements Cloneable
       if (data.length != manyItems){
          trimmedArray = new int[manyItems];
          System.arraycopy(data, 0, trimmedArray, 0, manyItems);
-         data = trimmedArray;
+         data = trimmedArray; //pass the reference
       }
    }
       
    /**
    * Create a new bag that contains all the elements from two other bags.
    **/   
-   public static IntArrayBag union(IntArrayBag b1, IntArrayBag b2){  
+   public static IntArrayBag union(IntArrayBag b1, IntArrayBag b2){
+
       IntArrayBag answer = new IntArrayBag(b1.getCapacity( ) + b2.getCapacity( ));
       
       System.arraycopy(b1.data, 0, answer.data, 0, b1.manyItems);
       System.arraycopy(b2.data, 0, answer.data, b1.manyItems, b2.manyItems);
+
       answer.manyItems = b1.manyItems + b2.manyItems;
       
       return answer;
@@ -209,54 +215,91 @@ public class IntArrayBag implements Cloneable
    /**
    * TODO: Create a new bag that contains the intersected elements from two other bags.
    **/ 
-   public static IntArrayBag intersection(IntArrayBag b1, IntArrayBag b2){  
-	      IntArrayBag answer = new IntArrayBag();
+//   public static IntArrayBag intersection(IntArrayBag b1, IntArrayBag b2){
+//	      IntArrayBag answer = new IntArrayBag();
+//
+//          //students implementation here.
+//	      IntArrayBag backup = b1.clone(); //deep copy
+//
+//	      int cnt1 = 0, cnt2 = 0;
+//	      //remove repeat items and store unique values in a backup
+//          for(int i=0; i<backup.manyItems; i++){
+//
+//             if(backup.countOccurrences(backup.data[i])>1){
+//                int cnt = backup.countOccurrences(backup.data[i])-1;
+//                int tmp[] = new int[cnt];
+//
+//                for(int c=0;c<cnt;c++){
+//                   tmp[c] = backup.data[i];
+//                }
+//
+//                backup.removeMany(tmp);//ensure eles in backup[] are all unique
+//
+//             }
+//
+//          }
+//
+//
+//	      for(int i=0;i<backup.manyItems;i++){
+//
+//             //count each unique ele in b1 and b1
+//             cnt1 = b1.countOccurrences(backup.data[i]);
+//             cnt2 = b2.countOccurrences(backup.data[i]);
+//
+//	         if( cnt1>1 && cnt2>1 ){
+//
+//	            int cnt = Math.min(cnt1,cnt2);//min between the two
+//
+//	            int tmp[] = new int [cnt];
+//
+//	            for( int j=0; j<tmp.length; j++){
+//	               tmp[j] = backup.data[i]; //fill cnt dup eles
+//                }
+//
+//	            answer.addMany(tmp);
+//	            answer.manyItems += tmp.length;
+//
+//             }else if(cnt1 == 0 || cnt2 == 0){
+//
+//
+//             }else{
+//                answer.add(backup.data[i]);
+//                answer.manyItems++;
+//             }
+//
+//
+//          }
+//
+//	      return answer;
+//	   }
+       public static IntArrayBag intersection(IntArrayBag b1, IntArrayBag b2){
 
-          //students implementation here.
-	      IntArrayBag backup = b1.clone(); //deep copy
+          IntArrayBag answer = new IntArrayBag();
+          int count, item;
 
-	      int cnt1 = 0, cnt2 = 0;
-	      //remove repeat items and store unique values in a backup
-          for(int i=0;i<backup.manyItems;i++){
+          for(int i=0;i<b1.manyItems;i++){
+             item = b1.data[i];
+             if(answer.countOccurrences(item) == 0){
 
-             if(backup.countOccurrences(backup.data[i])>1){
-                int cnt = backup.countOccurrences(backup.data[i])-1;
-                int tmp[] = new int[cnt];
-                for(int c=0;c<cnt;c++){
-                   tmp[c] = backup.data[i];
+                count = Math.min(b1.countOccurrences(item),b2.countOccurrences(item));
+
+                for(int j=0; j<count; j++){
+                   answer.add(item);
                 }
-                backup.removeMany(tmp);
+
              }
 
           }
+          return answer;
+       }
 
 
-	      for(int i=0;i<backup.manyItems;i++){
-
-
-             cnt1 = b1.countOccurrences(backup.data[i]);
-             cnt2 = b2.countOccurrences(backup.data[i]);
-
-	         if( cnt1>1 && cnt2>1 ){
-
-	            int cnt = Math.min(cnt1,cnt2);
-
-	            int tmp[] = new int [cnt];
-
-	            for( int j=0; j<tmp.length; j++){
-	               tmp[j] = backup.data[i];
-                }
-
-	            answer.addMany(tmp);
-	            answer.manyItems += tmp.length;
-             }
-
-
-          }
-
-
-	      return answer;
-	   }
-      
+	   public void printData(){
+            System.out.println(this.getClass());
+            for(int i=0;i<manyItems;i++) {
+               System.out.println(data[i]);
+            }
+            System.out.println("---------------------------");
+       }
 }
            
